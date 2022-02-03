@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Fast Food Kitchen Part B Class
@@ -132,13 +133,98 @@ public class FastFoodKitchen2 {
      * @return Returns true if orderID matches an ordernumber and cancels that order, false if it does not
      */
     public boolean cancelOrder(int orderID){
-        for (int i = 0; i <= orderList.size() - 1; i++){
-            if (orderID == orderList.indexOf(i)){
+        for (int i = 0; i <= orderList.size() - 1; i++)
+            if (orderID == orderList.indexOf(i)) {
                 orderList.remove(i);
                 return true;
             }
-
-        }
         return false;
     }
+
+    /**
+     *
+     * @param orderID target for sequential search to find in the orderList
+     * @return The position of the orderID in the orderList or -1 if it is not found
+     */
+    public int findOrderSeq(int orderID){
+        for (int i = 0; i <= orderList.size() -1; i++){
+            if (orderID == orderList.get(i).getOrderNum()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     *
+     */
+    public void selectionSort(){
+        for (int i = 0; i < orderList.size() -1; i++){
+            int minIndex = i;
+            for (int j = i + 1; j < orderList.size(); j++){
+                if (orderList.get(j).getTotalBurgers() < orderList.get(minIndex).getTotalBurgers()){
+                    minIndex = j;
+                }
+
+            }
+            // Swapping element i with new value of minIndex given in if statement in OrderList
+            Collections.swap(orderList, i, minIndex);
+        }
+    }
+
+    public void insertionSort(){
+        if (orderList.size() != 0){
+            for (int i = 1; i < orderList.size(); i++){
+                int pointer = i;
+                int totalBurg = orderList.get(i).getTotalBurgers();
+                //tempOrder = orderList.get(i);
+                while (pointer > 0 && (totalBurg < orderList.get(pointer - 1).getTotalBurgers())){
+                    BurgerOrder temp = orderList.remove(pointer -1);
+                    orderList.add(pointer, temp);
+                    pointer--;
+
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param orderID used to search OrderList for position
+     * @return returns the current position in orderList
+     */
+    public int findOrderBin(int orderID){
+        int left = 0;
+        int right = orderList.size() -1;
+        while (left <= right){
+            int middle = (left + right) / 2;
+            if (orderID == orderList.get(middle).getOrderNum()){
+                return middle;
+            }
+            else if (orderID > orderList.get(middle).getOrderNum()){
+                left = middle + 1;
+            }
+            else if (orderID < orderList.get(middle).getOrderNum()){
+                right = middle - 1;
+            }
+            else {
+                return -1;
+            }
+        }
+        return -1;
+
+    }
+
+
+
+
+    /**
+     *
+     * @return Returns orderList
+     */
+    public ArrayList<BurgerOrder> getOrderList(){
+        return orderList;
+    }
+
+
 }

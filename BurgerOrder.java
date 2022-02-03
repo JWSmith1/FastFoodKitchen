@@ -203,6 +203,11 @@ public class BurgerOrder {
 
     }
 
+    public int getTotalBurgers(){
+        return getNumCheeseBurgers() + getNumVeggieBurgers() + getNumHamburgers();
+    }
+
+
     @Override
     public String toString() {
         return "BurgerOrder{" +
